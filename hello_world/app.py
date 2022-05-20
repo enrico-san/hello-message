@@ -1,6 +1,5 @@
 import json
 import mysql_helper
-import traceback
 
 def lambda_handler(event, context):
     """Message digesting Lambda function

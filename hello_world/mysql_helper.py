@@ -1,11 +1,15 @@
 from multiprocessing import connection
 import pymysql.cursors
 
+# TODO as this is a quick and dirty mysql call, params are in the code. They must come from the environment
+HOST ='172.17.0.3'
+USER = 'root'
+DB = 'acube'
+
 def get_connection():
-  # TODO as this is a quick and dirty mysql call, params are in the code. They must come from the environment
-  connection = pymysql.connect(host='172.17.0.3',
-                              user='root',
-                              database='acube',
+  connection = pymysql.connect(host=HOST,
+                              user=USER,
+                              database=DB,
                               charset='utf8mb4',
                               cursorclass=pymysql.cursors.DictCursor)
   return connection

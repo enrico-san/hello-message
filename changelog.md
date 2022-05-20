@@ -1,4 +1,8 @@
-## 
+## last commit
+- more readme
+- complete one integration test
+
+## ae29828847e175a7936c92ee740ca3c58b8d8a4d
 - stored message into the database
 - added quick and dirty mysql helper
 - added pymysql to requirements
