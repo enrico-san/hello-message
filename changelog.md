@@ -1,4 +1,11 @@
 ## 
+- added build script
+- renamed script unittest to test
+- using docker for building
+- written README.md
+- gitignored logfile.txt
+
+## 29bc330770bed94f7c2ca304c77ccd7c9ddb93aa
 - added bash scripts: unit test, integration test(local), run locally
 
 ## 88fdd0840d227edcfc1c58de35a85aca0f988acc
