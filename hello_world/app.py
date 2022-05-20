@@ -1,7 +1,9 @@
 import json
+import mysql_helper
+import traceback
 
 def lambda_handler(event, context):
-    """Sample pure Lambda function
+    """Message digesting Lambda function
 
     Parameters
     ----------
@@ -22,7 +24,28 @@ def lambda_handler(event, context):
         Return doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
     """
 
-    print(event['body'])
+    try:
+        body = json.loads(event['body'])['body']
+        customerId = body['customerId']
+        messageType = body['type']
+        amount = body['amount']
+    except:
+        return {
+            "statusCode": 400,
+            "body": json.dumps({
+                "message": "invalid event"
+        }),
+    }
+
+    try:
+        mysql_helper.update(customerId, messageType, amount)
+    except:
+        return {
+            "statusCode": 400,
+            "body": json.dumps({
+                "message": "database error"
+        }),
+    }
 
     return {
         "statusCode": 200,

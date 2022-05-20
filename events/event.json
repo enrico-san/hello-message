@@ -1,5 +1,5 @@
 {
-  "body": "{\"message\": \"hello world\"}",
+  "body": {"customerId": 2,"type": "B","amount": "0.012","uuid": "a596b362-08be-419f-8070-9c3055566e7c"},
   "resource": "/hello",
   "path": "/hello",
   "httpMethod": "GET",

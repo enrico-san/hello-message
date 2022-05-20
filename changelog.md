@@ -1,4 +1,10 @@
 ## 
+- stored message into the database
+- added quick and dirty mysql helper
+- added pymysql to requirements
+- implemented integration test
+
+## d0c4e692b644135bd7dff069582667f8bf5f6532
 - added build script
 - renamed script unittest to test
 - using docker for building

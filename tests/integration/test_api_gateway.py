@@ -1,4 +1,4 @@
-import os
+import json
 from unittest import TestCase
 
 import requests
@@ -8,7 +8,7 @@ import requests
 
 
 class TestApiGateway(TestCase):
-    # TODO find out how to retrieve SAM endpoint 
+    # TODO put the endpoint in the environment
     api_endpoint: str = "http://127.0.0.1:3000/hello"
 
     def setUp(self) -> None:
@@ -22,5 +22,7 @@ class TestApiGateway(TestCase):
         """
         Call the API Gateway endpoint and check the response
         """
-        response = requests.get(self.api_endpoint)
+        with open('events/event.json') as f:
+            data = json.load(f)
+        response = requests.get(self.api_endpoint, json=data)
         self.assertDictEqual(response.json(), {"message": "event digested"})
