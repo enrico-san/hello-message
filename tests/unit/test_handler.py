@@ -10,7 +10,12 @@ def apigw_event():
     """ Generates API GW Event"""
 
     return {
-        "body": '{ "test": "body"}',
+        "body": """{
+                    "customerId": 1,
+                    "type": "A",
+                    "amount": "0.012",
+                    "uuid": "a596b362-08be-419f-8070-9c3055566e7c"
+                }""",
         "resource": "/{proxy+}",
         "requestContext": {
             "resourceId": "123456",

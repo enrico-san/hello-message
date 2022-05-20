@@ -4,23 +4,12 @@ from unittest import TestCase
 import requests
 
 """
-Make sure env variable AWS_SAM_STACK_NAME exists with the name of the stack we are going to test. 
 """
 
 
 class TestApiGateway(TestCase):
+    # TODO find out how to retrieve SAM endpoint 
     api_endpoint: str = "http://127.0.0.1:3000/hello"
-
-    @classmethod
-    def get_stack_name(cls) -> str:
-        stack_name = os.environ.get("AWS_SAM_STACK_NAME")
-        if not stack_name:
-            raise Exception(
-                "Cannot find env var AWS_SAM_STACK_NAME. \n"
-                "Please setup this environment variable with the stack name where we are running integration tests."
-            )
-
-        return stack_name
 
     def setUp(self) -> None:
         """
