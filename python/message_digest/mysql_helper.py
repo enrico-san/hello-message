@@ -1,17 +1,16 @@
-from multiprocessing import connection
 import pymysql.cursors
+import os
 
 # TODO as this is a quick and dirty mysql call, params are in the code. They must come from the environment
-HOST ='172.17.0.3'
-USER = 'root'
-DB = 'acube'
+USER = os.environ['MYSQL_USER']
+DB = os.environ['MYSQL_DATABASE']
 
 def get_connection():
-  connection = pymysql.connect(host=HOST,
-                              user=USER,
-                              database=DB,
-                              charset='utf8mb4',
-                              cursorclass=pymysql.cursors.DictCursor)
+  connection = pymysql.connect(
+    user=USER,
+    database=DB,
+    charset='utf8mb4',
+    cursorclass=pymysql.cursors.DictCursor)
   return connection
 
 def update(customerId, messageType, amount):

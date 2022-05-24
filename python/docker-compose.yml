@@ -1,0 +1,67 @@
+version: '3'
+services:
+  mysql:
+    image: mysql/mysql-server:5.7
+    restart: always
+    environment:
+      MYSQL_USER: root
+      MYSQL_DATABASE: 'acube'
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+    ports:
+      - '3306:3306'
+    # volumes:
+    #   - './.mysql-data/db:/var/lib/mysql'
+    #   - './initial.sql:/docker-entrypoint-initdb.d/initial.sql'
+
+  # Build lambda/layer
+  build:
+    entrypoint: pip install
+    image: lambci/lambda:build-python3.7
+    volumes:
+      - lambda:/var/task
+      - layer:/opt/python
+      - ./:/tmp
+    working_dir: /tmp
+
+  # Package lambda/layer
+  dist:
+    entrypoint: zip -r - .
+    image: lambci/lambda:build-python3.7
+    volumes:
+      - lambda:/var/task
+      - layer:/opt/python
+
+  # Test function
+  test:
+    env_file: .env
+    image: lambci/lambda:python3.7
+    depends_on:
+      - db
+    volumes:
+      - lambda:/var/task
+      - layer:/opt/python
+
+  # Develop function
+  dev:
+    command: /bin/bash
+    env_file: .env
+    image: lambci/lambda:build-python3.7
+    volumes:
+      - layer:/opt/python
+      - ./:/var/task
+
+  sam:
+    build:
+      context: ./
+      dockerfile: Dockerfile.lambdas
+    image: hello-message:local
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    entrypoint: sam local start-lambda --host 0.0.0.0 --port 3001 --docker-volume-basedir /home/oem/src/a-cube/hello-message
+    networks:
+      - lambda
+
+volumes:
+  lambda:
+  layer:

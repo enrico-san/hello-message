@@ -1,7 +1,8 @@
 import json
+import pymysql.cursors
 import mysql_helper
 
-def lambda_handler(event, context):
+def handler(event, context):
     """Message digesting Lambda function
 
     Parameters
@@ -22,18 +23,16 @@ def lambda_handler(event, context):
 
         Return doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
     """
-
+    
     try:
-        body = json.loads(event['body'])['body']
+        body = event['body']['body']
         customerId = body['customerId']
         messageType = body['type']
         amount = body['amount']
     except:
         return {
             "statusCode": 400,
-            "body": json.dumps({
-                "message": "invalid event"
-        }),
+            "body": {"message": "invalid event"},
     }
 
     try:
@@ -41,14 +40,10 @@ def lambda_handler(event, context):
     except:
         return {
             "statusCode": 400,
-            "body": json.dumps({
-                "message": "database error"
-        }),
+            "body": {"message": "database error"},
     }
 
     return {
         "statusCode": 200,
-        "body": json.dumps({
-            "message": "event digested"
-        }),
+        "body": {"message": "event digested"},
     }
